@@ -58,8 +58,9 @@ function APIcalls() {
     }).then(function(response) {
         let day_number = 0;
         for (const item of response.list) {
-            if (item.dt_txt.split(" ")[1] === "15:00:00") {
-                const [year, month, day] = item.dt_txt.split("-")[0].split(" ");
+            if (item.dt_txt.includes("15:00:00")) {
+                const [date, time] = item.dt_txt.split(" ");
+                const [year, month, day] = date.split("-");
                 $(`#${day_number}date`).text(`${month}/${day}/${year}`);
                 const temp = Math.round(((item.main.temp - 273.15) * 9 / 5 + 32));
                 $(`#${day_number}five_day_temp`).text(`Temp: ${temp}°F`);
@@ -86,4 +87,3 @@ function APIcalls() {
     });
 }
 
-searchClicker();
